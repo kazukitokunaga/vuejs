@@ -1,0 +1,16 @@
+.v-enter-active, .v-leave-active {
+    transition: opacity 1s;
+}
+
+/* opacity:0から1へのフェードイン＆フェードアウト */
+.v-enter, .v-leave-to {
+    opacity: 0;
+}
+
+.item {
+    padding: 4px 8px;
+    transition: background-color 0.4s;
+}
+.is-active {
+    background: #ffeaea;
+}

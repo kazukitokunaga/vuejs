@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Vue.js App</title>
+  <link href="main.css" rel="stylesheet">
+</head>
+<body>
+  <div id="app">
+    <!-- この#appの内側にテンプレートを書き込んでいく -->
+    <!-- {{二重の中括弧}}　Mustache（マスタッシュ記法）で、テキストコンテンツの一部としてプロパティをバインドする。 -->
+    <p>{{ message }}</p>
+
+    <!-- 繰り返しの描画 -->
+    <ol>
+      <li v-for="item in list">{{ item }}</li>
+    </ol>
+    
+    <!-- イベントの利用 -->
+    <button v-on:click="handleClick">Click</button>
+
+    <!-- フォーム入力との同期 -->
+    <input v-model="message">
+    <p>{{ message }}</p>
+
+    <!-- 条件分岐 -->
+    <button v-on:click="show=!show">切り替え</button>
+    <p v-if="show">Hello Vue.js!</p>
+
+    <!-- トランジション&アニメーション -->
+    <button v-on:click="show=!show">切り替え</button>
+    <transition>
+      <p v-if="show">Hello Vue.js!</p>
+    </transition>
+
+    <!-- 1 オブジェクトのプロパティを表示 -->
+    <p>{{ message.value }}</p>
+
+    <!-- 2 文字列の長さを表示 -->
+    <p>{{ message.value.length }}</p>
+
+    <!-- 3 リストのインデックス2を表示 -->
+    <p>{{ list[2] }}</p>
+
+    <!-- 4 プロパティを組み合わせて使用 -->
+    <p>{{ list[num] }}</p>
+
+    <!-- countプロパティを表示する -->
+    <p>{{ count }}回クリックしたよ！ </p>
+    <!-- このボタンをクリックするとincrementメソッドが呼び出される -->
+    <button v-on:click="increment">カウントを増やす</button>
+
+    <!-- クラスとスタイルのデータバインディング -->
+    <button v-on:click="isActive=!isActive">isActiveを切り替える</button>
+    <!-- 属性へのバインドにはv-bindディレクティブを使う -->
+    <p v-bind:class="{ child: isChild, 'is-active': isActive }" class="item">
+      動的なクラス
+    </p>
+    <p v-bind:style="{ color: textColor, backgroundColor: bgColor }" class="item">
+      動的なスタイル
+    </p>
+
+    <!-- SVGのデータバインディング -->
+    <div id="app">
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <circle cx="100" cy="75" v-bind:r="radius" fill="lightpink" />
+      </svg>
+      <!-- rangeでサイズを可変にする。 -->
+      <input type="range" min="0" max="100" v-model="radius">
+    </div>
+
+
+  </div>
+  <!-- Vue.jsの読み込み -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
