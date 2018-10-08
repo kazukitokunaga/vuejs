@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Vue.js App</title>
+  <link href="main.css" rel="stylesheet">
+</head>
+<body>
+  <div id="app">
+    <!-- この#appの内側にテンプレートを書き込んでいく -->
+    <!-- {{二重の中括弧}}　Mustache（マスタッシュ記法）で、テキストコンテンツの一部としてプロパティをバインドする。 -->
+    <p>{{ message }}</p>
+
+    <!-- 繰り返しの描画 -->
+    <ol>
+      <li v-for="item in list">{{ item }}</li>
+    </ol>
+    
+    <!-- イベントの利用 -->
+    <button v-on:click="handleClick">Click</button>
+
+    <!-- フォーム入力との同期 -->
+    <input v-model="message">
+    <p>{{ message }}</p>
+
+    <!-- 条件分岐 -->
+    <button v-on:click="show=!show">切り替え</button>
+    <p v-if="show">Hello Vue.js!</p>
+
+    <!-- トランジション&アニメーション -->
+    <button v-on:click="show=!show">切り替え</button>
+    <transition>
+      <p v-if="show">Hello Vue.js!</p>
+    </transition>
+
+    <!-- 1 オブジェクトのプロパティを表示 -->
+    <p>{{ message.value }}</p>
+
+    <!-- 2 文字列の長さを表示 -->
+    <p>{{ message.value.length }}</p>
+
+    <!-- 3 リストのインデックス2を表示 -->
+    <p>{{ list[2] }}</p>
+
+    <!-- 4 プロパティを組み合わせて使用 -->
+    <p>{{ list[num] }}</p>
+
+    <!-- countプロパティを表示する -->
+    <p>{{ count }}回クリックしたよ！ </p>
+    <!-- このボタンをクリックするとincrementメソッドが呼び出される -->
+    <button v-on:click="increment">カウントを増やす</button>
+
+    <!-- クラスとスタイルのデータバインディング -->
+    <button v-on:click="isActive=!isActive">isActiveを切り替える</button>
+    <!-- 属性へのバインドにはv-bindディレクティブを使う -->
+    <p v-bind:class="{ child: isChild, 'is-active': isActive }" class="item">
+      動的なクラス
+    </p>
+    <p v-bind:style="{ color: textColor, backgroundColor: bgColor }" class="item">
+      動的なスタイル
+    </p>
+
+    <!-- SVGのデータバインディング -->
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <circle cx="100" cy="75" v-bind:r="radius" fill="lightpink" />
+    </svg>
+    <!-- rangeでサイズを可変にする。 -->
+    <input type="range" min="0" max="100" v-model="radius">
+
+    <!-- 要素を繰り返し描画する -->
+    <ul>
+      <li v-for="item in list2"
+        v-bind:key="item.id"
+        v-bind:class="{ tuyoi: item.hp > 300 }">
+        ID.{{ item.id }} {{ item.name }} HP.{{ item.hp }}
+        <span v-if="item.hp > 300">つよい！</span>
+      </li>
+    </ul>
+
+    <!-- リストに要素を追加する -->
+    <!-- このフォームの入力値を新しいモンスターの名前に使う -->
+    名前
+    <input v-model="name">
+    <button v-on:click="doAdd">モンスターを追加</button>
+    <ul>
+      <li v-for="item in list2" v-bind:key="item.id">
+        ID.{{ item.id }} {{ item.name }} HP.{{ item.hp }}
+      </li>
+    </ul>
+
+    <!-- リスト要素を削除しよう -->
+    <ul>
+      <!-- 変数部分を()で囲み、配列インデックスを任意で受け取れる。 -->
+      <li v-for="(item, index) in list2" v-bind:key="item.id">
+        ID.{{ item.id }} {{ item.name }} HP.{{ item.hp }}
+        <!-- 削除ボタンをv-for内に作成（受け取った配列インデックスを指定して削除する。） -->
+        <button v-on:click="doRemove(index)">モンスターを削除</button>
+      </li>
+    </ul>
+
+    <!-- リスト要素プロパティを更新しよう -->
+    <ul>
+      <li v-for="(item, index) in list2" v-bind:key="item.id" v-if="item.hp">
+        ID.{{ item.id }} {{ item.name }} HP.{{ item.hp }}
+        <span v-if="item.hp < 50">瀕死！</span>
+        <!-- ボタンはv-for内に作成 -->
+        <button v-on:click="doAttack(index)">攻撃する</button>
+      </li>
+    </ul>
+
+    <!-- 外部からデータを取得する -->
+    <ul>
+      <li v-for="(item, index) in list3" v-bind:key="item.id">
+        ID.{{ item.id }} {{ item.name }} HP.{{ item.hp }}
+      </li>
+    </ul>
+
+    <!-- DOMを直接参照する$elと$refs -->
+    <div id="app">
+      <button v-on:click="handleClick">カウントアップ</button>
+      <button v-on:click="show=!show">表示/非表示</button>
+      <span ref="count" v-if="show">0</span>
+    </div>
+
+    <!-- 複数行テキスト -->
+    <textarea v-model="message"></textarea>
+    <pre>{{ message }}</pre>
+
+    <!-- チェックボックス（単一要素） -->
+    <!-- 単一要素の場合は、valの値は真偽値となる。 -->
+    <label>
+      <input type="checkbox" v-model="val"> {{ val }}
+    </label>
+
+    <!-- チェックボックス（複数要素） -->
+    <!-- 複数要素の場合は、valueを指定して配列を準備する必要がある。 -->
+    <label><input type="checkbox" v-model="val2" value="A"> A</label>
+    <label><input type="checkbox" v-model="val2" value="B"> B</label>
+    <label><input type="checkbox" v-model="val2" value="C"> C</label>
+    <p>{{ val2 }}</p>
+
+    <!-- ラジオボタン -->
+    <!-- ラジオボタンの場合は、valの値は文字列となる。 -->
+    <label><input type="radio" value="a" v-model="val3"> A</label>
+    <label><input type="radio" value="b" v-model="val3"> B</label>
+    <label><input type="radio" value="c" v-model="val3"> C</label>
+    <p>{{ val3 }}</p>
+
+    <!-- セレクトボックス（単一要素） -->
+    <!-- 単一要素の場合のvalは文字列となる。 -->
+    <select v-model="val3">
+      <option disabled="disabled">選択してください</option>
+      <option value="a">A</option>
+      <option value="b">B</option>
+      <option value="c">C</option>
+    </select>
+    <p>{{ val3 }}</p>
+
+    <!-- セレクトボックス（複数要素） -->
+    <!-- 複数要素の場合のvalは配列となる。 -->
+    <select v-model="val2" multiple>
+      <option value="a">A</option>
+      <option value="b">B</option>
+      <option value="c">C</option>
+    </select>
+    <p>{{ val2 }}</p>
+
+    <!-- 画像をブラウザでプレビュー -->
+    <input type="file" v-on:change="handleChange">
+    <div v-if="preview"><img v-bind:src="preview"></div>
+
+    <!-- 算出プロパティの使い方 -->
+    <p>{{ width }} の半分は {{ halfWidth }}</p>
+    
+    <!-- 算出プロパティを組み合わせて使用しよう -->
+    <p>X: {{ halfPoint.x }}</p>
+    <p>Y: {{ halfPoint.y }}</p>
+
+    <!-- ゲッターとセッター -->
+    <input v-model.number="width"> {{ width }}
+    <input v-model.number="halfWidth"> {{ halfWidth }}
+
+    <!-- 算出プロパティのキャッシュ機能 -->
+    <p>算出プロパティ</p>
+    <ol>
+      <!-- 算出プロパティはリアクティブな依存データに基づき結果をキャッシュする。
+      キャッシュを再構築するトリガになるのは リアクティブなデータのみ。
+      算出プロパティが使っているMath.random()はリアクティブでないため、何度使用しても同じ数字が返される。
+      -->
+      <li>{{ computedData }}</li>
+      <li>{{ computedData }}</li>
+    </ol>
+    <p>メソッド</p>
+    <ol>
+      <!-- methodのMath.random()はキャッシュされないため、違う数値が返される。 -->
+      <li>{{ methodsData() }}</li>
+      <li>{{ methodsData() }}</li>
+    </ol>
+
+    <!-- リストの絞り込み -->
+    <input v-model.number="budget"> 円以下に絞り込む
+    <input v-model.number="limit"> 件を表示
+    <p>{{ matched.length }} 件中 {{ limited.length }} 件を表示中</p>
+    <ul>
+      <!-- v-forでは最終結果、算出プロパティのlimitedを使用する -->
+      <li v-for="item in limited" v-bind:key="item.id">
+        {{ item.name }} {{ item.price }}円
+      </li>
+    </ul>
+
+    <!-- ソート機能を追加 -->
+    <input v-model.number="budget"> 円以下に絞り込む
+    <input v-model.number="limit"> 件を表示
+    <button v-on:click="order=!order">切り替え</button>
+    <p>{{ matched.length }} 件中 {{ limited.length }} 件を表示中</p>
+    <ul>
+      <!-- v-forでは最終結果、算出プロパティのlimitedを使用する -->
+      <li v-for="item in limited" v-bind:key="item.id">
+        {{ item.name }} {{ item.price }}円
+      </li>
+    </ul>
+
+    <!-- フォームを監視してAPIからデータを取得しよう -->
+    <select v-model="current">
+      <option v-for="topic in topics" v-bind:value="topic.value">
+        {{ topic.name }}
+      </option>
+    </select>
+    <div v-for="item in list5">{{ item.full_name }}</div>
+
+    <!-- フィルタの使い方 -->
+    <p>{{ price | localeNum }}円</p>
+
+    <!-- カスタムディレクティブの使い方 -->
+    <!-- 
+      カスタムディレクティブはディレクティブを自作するための機能。
+     -->
+    <input type="text" v-focus>
+
+    <!-- 更新後のDOMの高さを取得しよう -->
+    <button v-on:click="list6.push(list6.length+1)">追加</button>
+    <ul ref="list6">
+      <li v-for="item in list6">{{ item }}</li>
+    </ul>
+  
+  </div>
+
+    <!--  axios（HTTP 通信用ライブラリ）の読み込み  -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <!-- Vue.jsの読み込み -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script src="main.js"></script>
+
+  <!-- Lodash（ユーティリティ用ライブラリ）の読み込み -->
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.5/lodash.min.js"></script>
+
+</body>
+</html>
