@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Vue.js App</title>
+  <link href="main.css" rel="stylesheet">
+</head>
+<body>
+  <div id="app">
+
+    <!-- コンポーネント間の通信（親から子） -->    
+    <!-- プロパティとして文字列を渡す -->
+    <comp-child val="これは子A"></comp-child>
+    <comp-child val="これは子B"></comp-child>
+    <!-- プロパティとしてデータを渡す -->
+    <comp-child :val="valueA"></comp-child>
+    <comp-child :val="valueB"></comp-child>
+
+    <!-- コンポーネント間の通信 / 子から親 -->
+    <comp-child2 v-on:childs-event="parentsMethod"></comp-child2>
+
+    <!-- 親が持つデータを操作しよう -->
+    <ul>
+      <comp-child3 v-for="item in list"
+        v-bind:key="item.id"
+        v-bind="item"
+        v-on:attack="handleAttack">
+      </comp-child3>
+    </ul>
+
+    <!-- keep-alive で状態を維持する -->
+    <button v-on:click="current='comp-board'">メッセージ一覧</button>
+    <button v-on:click="current='comp-form'">投稿フォーム</button>
+    <div v-bind:is="current"></div>
+
+    <button v-on:click="current='comp-board'">メッセージ一覧</button>
+    <button v-on:click="current='comp-form'">投稿フォーム</button>
+    <keep-alive>
+      <div v-bind:is="current"></div>
+    </keep-alive>
+
+    <!-- 基本的なトランジションの使い方 -->
+    <p><button v-on:click="show=!show">切り替え</button></p>
+    <transition>
+      <div v-show="show">
+        トランジションさせたい要素
+      </div>
+    </transition>
+
+    <!-- 複数の要素をグループ化する -->
+    <p><button v-on:click="show=!show">切り替え</button></p>
+    <transition>
+      <div v-if="show" key="a">TRUE</div>
+      <div v-else key="b">FALSE</div>
+    </transition>
+
+    <!-- キーの変化によるトランジションの発動 -->
+    <p><button v-on:click="count++">切り替え</button></p>
+    <transition>
+      <div v-bind:key="count">{{ count }}</div>
+    </transition>
+
+    <!-- 移動トランジション -->
+    <!-- <p><button v-on:click="order=!order">切り替え</button></p>
+    <!-- transition-groupタグに指定した属性はラップ要素に付与される
+    <transition-group tag="ul" class="list">
+      <li v-for="item in sortedList" v-bind:key="item.id">
+        {{ item.name }} {{ item.price }}円
+      </li>
+    </transition-group> -->
+
+    <!-- SVGをトランジションで切り替えよう -->
+    <button v-on:click="toggle=!toggle">切り替え</button>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <!-- SVGのパーツにトランジションを適用 -->
+      <transition>
+        <my-circle v-bind:fill="fill" v-bind:key="fill"></my-circle>
+      </transition>
+    </svg>
+
+    <!-- 使用できるトランジションフック -->
+    <p><button v-on:click="show=!show">切り替え</button></p>
+    <transition
+      v-on:before-enter="beforeEnter"
+      v-on:enter="enter"
+      v-on:after-enter="afterEnter"
+      v-on:enter-cancelled="enterCancelled"
+      v-on:before-leave="beforeLeave"
+      v-on:leave="leave"
+      v-on:after-leave="afterLeave"
+      v-on:leave-cancelled="leaveCancelled">
+      <div v-if="show">example</div>
+    </transition>
+
+  </div>
+
+  <!--  axios（HTTP 通信用ライブラリ）の読み込み  -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <!-- Vue.jsの読み込み -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script src="main.js"></script>
+
+  <!-- Lodash（ユーティリティ用ライブラリ）の読み込み -->
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
+  
+</body>
+</html>

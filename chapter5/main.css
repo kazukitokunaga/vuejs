@@ -1,0 +1,87 @@
+/* 基本的なトランジションの使い方
+/* 1秒かけて透明度を遷移
+.v-enter-active, .v-leave-active {
+    transition: opacity 1s;
+}
+/* 見えなくなるときの透明度
+.v-enter, .v-leave-to {
+    opacity: 0;
+}
+*/
+
+/* 1秒かけて透明度を遷移
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 1s, transform 1s;
+}
+/* 表示するときは左から
+/*
+ enterは「対象要素がDOMに追加されたとき」のトランジションフェーズ
+ 
+.v-enter {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+/* 消えるときは下へ
+/* 
+ leaveは「対象要素がDOMから削除されたとき」のトランジションフェーズ
+
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+*/
+
+/* 複数の要素をグループ化する
+.v-enter-active, .v-leave-active {
+  transition: opacity 1s;
+}
+/* ２つの要素を同じ場所でアニメーションさせるには、一方の要素にposition: absoluteを設定する
+.v-leave-active {
+  position: absolute;
+}
+.v-enter, .v-leave-to {
+  opacity: 0;
+}
+*/
+
+/* キーの変化によるトランジションの発動
+/* .v-enter-active {
+  transition: opacity 1s;
+}
+/* 微妙に時間をずらして文字色の濃度を調整してます
+.v-leave-active {
+  transition: opacity 0.8s ease 0.2s;
+  position: absolute;
+}
+.v-enter, .v-leave-to {
+  opacity: 0;
+} */
+
+/* 1秒かけて要素を移動させる */
+/* .v-move {
+  transition: transform 1s;
+} */
+
+/* SVGをトランジションで切り替える
+.v-enter-active, .v-leave-active {
+  transition: all 1s;
+}
+.v-leave-active {
+  position: absolute;
+}
+.v-enter, .v-leave-to {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+*/
+
+/* 使用できるトランジションフック */
+.v-enter-active, .v-leave-active {
+  transition: all 1s;
+}
+.v-enter, .v-leave-to {
+  opacity: 0;
+  transform: translateX(-20px);
+}
